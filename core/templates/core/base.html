@@ -22,7 +22,7 @@
 
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{% url 'home' %}">
                 <img src="{% static 'core/img/carrito_icon.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
                 Lista de compras
             </a>
@@ -32,10 +32,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav mr-auto ml-auto text-center">
-                    <a class="nav-item nav-link active" href="#">Inicio</a>
+                    <a class="nav-item nav-link active" href="{% url 'home' %}">Inicio</a>
                     <a class="nav-item nav-link" href="#">Nosotros</a>
                     <a class="nav-item nav-link" href="#">Servicios</a>
-                    <a class="nav-item nav-link disabled" href="#">Contacto</a>
+                    <a class="nav-item nav-link" href="#">Contacto</a>
                 </div>
 
                 <div class="d-flex flex-row justify-content-center">

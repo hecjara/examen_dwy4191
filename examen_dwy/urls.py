@@ -20,3 +20,9 @@ urlpatterns = [
     path('', include('core.urls')),
     path('admin/', admin.site.urls),
 ]
+
+#personalizacion de los titulos del administrador
+admin.site.site_header = "Administración de Listas de compra"
+admin.site.index_title = "Lista de compras"
+admin.site.site_title = "Administración de listas de compra"
+
