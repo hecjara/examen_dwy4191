@@ -7,6 +7,12 @@ class ListaAdmin(admin.ModelAdmin):
     search_fields = ['total_productos_agregados', 'total_productos_comprados', 'costo_total_presupuestado', 'costo_total_real', 'estadoLista']
     list_filter = ('estadoLista',)
 
+class ComunaAdmin(admin.ModelAdmin):
+    list_display = ('region', 'nombre')
+    search_fields = ['nombre']
+    list_filter = ('region',)
+
+
 
 admin.site.register(EstadoTienda)
 admin.site.register(EstadoProducto)
@@ -14,5 +20,5 @@ admin.site.register(EstadoLista)
 admin.site.register(Lista, ListaAdmin)
 admin.site.register(Producto)
 admin.site.register(Region)
-admin.site.register(Comuna)
+admin.site.register(Comuna, ComunaAdmin)
 admin.site.register(Tienda)
