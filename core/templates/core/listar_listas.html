@@ -1,0 +1,54 @@
+{% extends 'core/base.html' %}
+
+
+{% block contenido %}
+<br>
+
+<button type="submit">Agregar lista</button>
+
+<br>
+<h2>Listas</h2>
+<table>
+    <tr>
+        <th>Productos Agregados</th>
+        <th>Productos Comprados</th>
+        <th>Total Presupuestado</th>
+        <th>Total Real</th>
+        <th>Estado Lista</th>
+        <th>Opciones</th>
+    </tr>
+
+    {% for l in listas %}
+        <tr>
+            <td>{{ l.total_productos_agregados }}</td>
+            <td>{{ l.total_productos_comprados }}</td>
+            <td>{{ l.costo_total_presupuestado }}</td>
+            <td>{{ l.costo_total_real }}</td>
+            <td>{{ l.estadoLista.nombre }}</td>
+            <td>
+                <a href="">Modificar</a>
+                <a href="{% url 'eliminar_lista' a.id %}">Eliminar</a>
+            </td>
+        </tr>
+
+
+
+
+    {% endfor %}
+
+
+
+</table>
+
+{% if messages %}
+
+    {% for m in messages %}
+
+        <div>{{ m }}</div>
+
+    {% endfor %}
+
+{% endif %}
+
+
+{% endblock contenido %}
