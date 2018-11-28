@@ -12,6 +12,9 @@ class ComunaAdmin(admin.ModelAdmin):
     search_fields = ['nombre']
     list_filter = ('region',)
 
+class RegionAdmin(admin.ModelAdmin):
+    list_display = ('nro_region', 'nombre')
+    search_fields = ['nro_region', 'nombre']
 
 
 admin.site.register(EstadoTienda)
@@ -19,6 +22,6 @@ admin.site.register(EstadoProducto)
 admin.site.register(EstadoLista)
 admin.site.register(Lista, ListaAdmin)
 admin.site.register(Producto)
-admin.site.register(Region)
+admin.site.register(Region, RegionAdmin)
 admin.site.register(Comuna, ComunaAdmin)
 admin.site.register(Tienda)
