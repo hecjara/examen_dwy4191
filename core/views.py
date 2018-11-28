@@ -19,6 +19,8 @@ def listar_listas(request):
     })
 
 
+#mensaje
+
 def eliminar_lista(request, id):
     #buscar la lista a eliminar
     lista = Lista.objects.get(id=id)
