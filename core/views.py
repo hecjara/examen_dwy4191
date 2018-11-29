@@ -71,3 +71,42 @@ def listar_productos(request, id):
         'productos':productos
     })
 
+
+
+####################################################################################################################
+                                                #CRUD TIENDAS
+####################################################################################################################
+
+def agregartienda(request):
+    var1 = 1    #estado por defecto de la tienda pendiente, el admin lo pasara a estado 2 o 3 (aceptado o rechazado respectivamente)
+    regiones = Region.objects.all()
+    comunas = Comuna.objects.all()
+    variables = {
+        'regiones':regiones,
+        'comunas':comunas
+    }
+
+    if request.POST:
+        tienda = Tienda()
+        tienda.nombre = request.POST.get('txtnombre')
+        tienda.nombre_sucursal = request.POST.get('txtnom_sucur')
+        tienda.direccion = request.POST.get('txtdireccion')
+        comuna = Comuna()
+        comuna.id = request.POST.get('cbocomuna')
+        tienda.comuna = comuna
+        estado = EstadoTienda() 
+        estado.id = var1 #pendiente por defecto
+        tienda.estado_tienda = estado
+
+        try:
+            tienda.save()
+            variables['mensaje'] = 'La solicitud ha sido enviada correctamente, a la espera de ser aprobada.'
+        except:
+            variables['mensaje'] = 'Ha ocurrido un error al intentar enviar la solicitud'
+        
+    return render(request, 'core/form_tienda.html', variables)
+
+
+
+
+
