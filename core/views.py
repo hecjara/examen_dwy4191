@@ -27,9 +27,9 @@ def agregarlista(request):
 
     try:
         lista.save()
-        messages.success(request, 'Modificado correctamente')
+        messages.success(request, 'Lista agregada correctamente')
     except:
-        messages.error(request, 'No se ha podido modificar')
+        messages.error(request, 'No se ha podido agregar la lista')
     return redirect('listado_listas')
 
 #metodo para listar las listas
@@ -40,5 +40,4 @@ def listar_listas(request):
     return render(request, 'core/listar_listas.html', {
         'listas':listas
     })
-
 
