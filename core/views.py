@@ -41,6 +41,7 @@ def listar_listas(request):
         'listas':listas
     })
 
+#metodo para eliminar listas
 def eliminar_lista(request, id):
     #buscar la lista a eliminar
     lista = Lista.objects.get(id=id)
@@ -53,3 +54,14 @@ def eliminar_lista(request, id):
         mensaje = "No se ha podido eliminar"
         messages.error(request, mensaje)
     return redirect('listado_listas')
+
+def listar_productos(request, id):
+    #Producto.lista es la FK de lista en la tabla producto
+    #obtener los productos que tengan el id de la lista seleccionada
+    #productos = Producto.objects.get(id=int(Producto.lista))
+
+    productos = Producto.objects.filter(lista=id)
+
+    return render(request, 'core/listar_productos.html', {
+        'productos':productos
+    })
