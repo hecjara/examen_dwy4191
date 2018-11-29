@@ -41,3 +41,15 @@ def listar_listas(request):
         'listas':listas
     })
 
+def eliminar_lista(request, id):
+    #buscar la lista a eliminar
+    lista = Lista.objects.get(id=id)
+
+    try:
+        lista.delete()
+        mensaje = "Eliminado correctamente"
+        messages.success(request, mensaje)
+    except:
+        mensaje = "No se ha podido eliminar"
+        messages.error(request, mensaje)
+    return redirect('listado_listas')

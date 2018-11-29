@@ -59,14 +59,9 @@
                 <td>{{ l.costo_total_real }}</td>
                 <td>{{ l.estadoLista.nombre }}</td>
                 <td>
-
-
-                    <a class="btn btn-outline-light mr-2" href="#">Agregar Producto</a>
-                    <a class="btn btn-outline-light mr-2" href="#">Ver Productos</a>
-                    <a class="btn btn-outline-light mr-2" href="#">Eliminar Lista</a>
-
-
-
+                    <a class="btn btn-primary mr-2" href="#" >Administrar Productos</a>
+                    <a class="btn btn-primary" href="{% url 'eliminar_lista' l.id %}">Eliminar Lista</a>
+                 
                 </td>
             </tr>
 
