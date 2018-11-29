@@ -1,12 +1,11 @@
 
 from django.urls import path
-from .views import home, listar_listas, eliminar_lista
-
+from .views import home, listar_listas, agregarlista
 
 
 
 urlpatterns = [
     path('', home, name="home"),
-    path('listar-listas/', listar_listas, name="listado_listas"),
-    path('eliminar-lista/<id>/', eliminar_lista, name="eliminar_lista"),
+    path('listar_listas/', listar_listas, name="listado_listas"),
+    path('agregarlista/', agregarlista, name="agregar_lista"),
 ]
