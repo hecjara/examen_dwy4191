@@ -8,7 +8,10 @@ def home(request):
     return render(request, 'core/home.html')
 
 
-#CRUD DE LISTAS
+
+####################################################################################################################
+                                                #CRUD LISTAS
+####################################################################################################################
 
 #metodo para agregar listas 
 def agregarlista(request):
@@ -55,13 +58,16 @@ def eliminar_lista(request, id):
         messages.error(request, mensaje)
     return redirect('listado_listas')
 
+####################################################################################################################
+                                                #CRUD PRODUCTOS
+####################################################################################################################
+
 def listar_productos(request, id):
     #Producto.lista es la FK de lista en la tabla producto
     #obtener los productos que tengan el id de la lista seleccionada
-    #productos = Producto.objects.get(id=int(Producto.lista))
-
     productos = Producto.objects.filter(lista=id)
 
     return render(request, 'core/listar_productos.html', {
         'productos':productos
     })
+

@@ -17,10 +17,14 @@ class RegionAdmin(admin.ModelAdmin):
     search_fields = ['nro_region', 'nombre']
 
 class ProductoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'lista','nombre', 'costo_presupuestado', 'costo_real', 'notas_adicionales')
+    list_display = ('id', 'lista','nombre', 'costo_presupuestado', 'costo_real', 'tienda', 'notas_adicionales')
     search_fields = ['id', 'lista', 'nombre']
     list_filter = ('lista',)
 
+class TiendaAdmin(admin.ModelAdmin):
+    list_display = ('id', 'nombre', 'nombre_sucursal', 'direccion', 'comuna', 'estado_tienda')
+    search_files = ['nombre', 'nombre_sucursal']
+    list_filter = ('comuna', 'estado_tienda',)
 
 
 
@@ -31,4 +35,4 @@ admin.site.register(Lista, ListaAdmin)
 admin.site.register(Producto, ProductoAdmin)
 admin.site.register(Region, RegionAdmin)
 admin.site.register(Comuna, ComunaAdmin)
-admin.site.register(Tienda)
+admin.site.register(Tienda, TiendaAdmin)
