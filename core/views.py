@@ -7,6 +7,17 @@ from django.contrib import messages
 def home(request):
     return render(request, 'core/home.html')
 
+def tiendasrechazadas(request):
+    rechazadas = Tienda.objects.filter(estado_tienda=3)
+    return render(request, 'core/tiendas_rechazadas.html', {
+        'rechazadas':rechazadas
+    })  
+
+def tiendasaprobadas(request):
+    aprobadas = Tienda.objects.filter(estado_tienda=2)
+    return render(request, 'core/tiendas_aprobadas.html', {
+        'aprobadas':aprobadas
+    })
 
 
 ####################################################################################################################
@@ -76,7 +87,14 @@ def listar_productos(request, id):
 ####################################################################################################################
                                                 #CRUD TIENDAS
 ####################################################################################################################
+#listar solicitudes de tiendas con estado pendiente
+def listar_solicitud(request):
+    pendientes = Tienda.objects.filter(estado_tienda=1)
+    return render(request, 'core/listar_solicitud.html', {
+        'pendientes':pendientes
+    })
 
+#solicitud para agregar tienda
 def agregartienda(request):
     var1 = 1    #estado por defecto de la tienda pendiente, el admin lo pasara a estado 2 o 3 (aceptado o rechazado respectivamente)
     regiones = Region.objects.all()
@@ -106,7 +124,50 @@ def agregartienda(request):
         
     return render(request, 'core/form_tienda.html', variables)
 
+#aprobar la solicitud
+def aprobartienda(request, id):
+    tienda = Tienda.objects.get(id=id)
 
+    estado = EstadoTienda()
+    estado.id = 2   #2 = aprobado
+    tienda.estado_tienda = estado
+
+    try:
+        tienda.save()
+        messages.success(request, 'Tienda aprobada correctamente')
+    except:
+        messages.error(request, 'Error al intentar aprobar la tienda')
+
+    return redirect('listar_solicitud')
+
+#rechazhar la solicitud
+def rechazartienda(request, id):
+    tienda = Tienda.objects.get(id=id)
+
+    estado = EstadoTienda()
+    estado.id = 3   #3 = rechazado
+    tienda.estado_tienda = estado
+
+    try:
+        tienda.save()
+        messages.success(request, 'La tienda ha sido rechazada')
+    except:
+        messages.error(request, 'Error al intentar rechazar la tienda')
+
+    return redirect('listar_solicitud')
+
+#eliminar la solicitud
+def eliminarsolicitud(request, id):
+    tienda = Tienda.objects.get(id=id)
+
+    try:
+        tienda.delete()
+        messages.success(request, "La solicitud ha sido eliminada correctamente")
+    except:
+        messages.error(request, "Error al intentar eliminar la solicitud")
+    return redirect('listar_solicitud')
+
+        
 
 
 
