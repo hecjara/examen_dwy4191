@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import EstadoLista, EstadoProducto, EstadoTienda, Producto, Lista, Region, Comuna, Tienda
 from django.contrib import messages
+from django.db.models import Sum, Count
 
 # Create your views here.
 
@@ -89,6 +90,19 @@ def listar_productos(request, id):
     return render(request, 'core/listar_productos.html', {
         'productos': productos
     })
+"""
+def agregar_productos(request, id):
+    lista = Lista.objects.get(id=id)
+    variables = {
+        'lista':lista,
+        'productos':Producto.objects.filter(lista=id),
+        'tienda':Tienda.objects.all(),
+        'total_real':Producto.objects.filter(lista=id).aggregate(Sum('costo_total_real')),
+        'form':form_producto
+    }
+    return render(request, 'core/listar_productos.html', variables)
+
+"""
 
 
 def form_producto(request, id):
@@ -114,6 +128,8 @@ def form_producto(request, id):
         tienda = Tienda()
         tienda.id = request.POST.get('cbotienda')
         producto.tienda = tienda
+
+        
 
         try:
             producto.save()

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core.apps.CoreConfig',
+    'pwa',
 ]
 
 MIDDLEWARE = [
@@ -122,3 +123,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'serviceworker.js')
+
+#nombre de la aplicacion en el manifiesto
+PWA_APP_NAME = "Listado de compras"
+
+#icono de la aplicacion en el manifiesto
+PWA_APP_ICONS = [
+    {
+        'src':'/static/core/img/carrito_icon.png',
+        'sizes':'160x160'
+    }
+]

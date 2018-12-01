@@ -1,6 +1,6 @@
 
 from django.urls import path
-from .views import home, listar_listas, agregarlista, eliminar_lista, listar_productos, agregartienda, listar_solicitud, aprobartienda, rechazartienda, eliminarsolicitud, tiendasrechazadas, tiendasaprobadas, form_producto, estado_comprado, estado_nocomprado
+from .views import home, listar_listas, agregarlista, eliminar_lista, listar_productos, agregartienda, listar_solicitud, aprobartienda, rechazartienda, eliminarsolicitud, tiendasrechazadas, tiendasaprobadas, estado_comprado, estado_nocomprado, form_producto
 
 
 
