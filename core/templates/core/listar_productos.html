@@ -29,6 +29,7 @@
             <thead>
 
                 <th>ID Lista</th>
+                <th>ID Producto</th>
                 <th>Producto</th>
                 <th>Costo Real</th>
                 <th>Costo Presupuestado</th>
@@ -46,6 +47,7 @@
             
             <tr>
                 <td>{{ p.lista.id }}</td>
+                <td>{{ p.id }}</td>
                 <td>{{ p.nombre }}</td>
                 <td>{{ p.costo_real }}</td>
                 <td>{{ p.costo_presupuestado }}</td>
@@ -53,12 +55,10 @@
                 <td>{{ p.estadoProducto.nombre }}</td>
                 <td>
                     {% if p.estadoProducto.id == 2 %}
-                        <a href="" class="btn btn-success">Canbiar a comprado</a>
+                        <a href="{% url 'estado_comprado' p.id %}" class="btn btn-success">Cambiar a comprado</a>
                     {% else %}
-
-                        <a href="" class="btn btn-danger">Canbiar a No comprado</a>
+                        <a href="{% url 'estado_nocomprado' p.id %}" class="btn btn-danger">Cambiar a No comprado</a>
                     {% endif %}
-
                 </td>
             </tr>
         

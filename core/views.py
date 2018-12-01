@@ -90,12 +90,13 @@ def listar_productos(request, id):
         'productos': productos
     })
 
+
 def form_producto(request, id):
     li = Lista.objects.get(id=id)
     ti = Tienda.objects.all()
     variables = {
-        'li':li,
-        'ti':ti
+        'li': li,
+        'ti': ti
     }
 
     if request.POST:
@@ -108,7 +109,7 @@ def form_producto(request, id):
         producto.costo_real = request.POST.get('txtreal')
         producto.notas_adicionales = request.POST.get('txtnotas')
         estado = EstadoProducto()
-        estado.id = 2 #no comprado por defecto
+        estado.id = 2  # no comprado por defecto
         producto.estadoProducto = estado
         tienda = Tienda()
         tienda.id = request.POST.get('cbotienda')
@@ -121,12 +122,48 @@ def form_producto(request, id):
             variables['mensaje'] = 'Error al intentar agregar el producto a la lista'
 
     return render(request, 'core/form_producto.html', variables)
-            
-#except Exception as e:
-#variables['mensaje'] = 'no guardado '+ str(e) 
+
+# except Exception as e:
+#variables['mensaje'] = 'no guardado '+ str(e)
+
+
+# cambiar a comprado
+def estado_comprado(request, id):
+    producto = Producto.objects.get(id=id)
+
+    estado = EstadoProducto()
+    estado.id = 1  # 1 = comprado
+    producto.estadoProducto = estado
+
+    try:
+        producto.save()
+        messages.success(request, 'El producto ha cabiado a estado "Comprado"')
+    except:
+        messages.error(
+            request, 'Error al intentar cambiar el estado del producto')
+
+    return redirect('listado_listas')
+
+# cambiar a no comprado
+def estado_nocomprado(request, id):
+    producto = Producto.objects.get(id=id)
+
+    estado = EstadoProducto()
+    estado.id = 2  # 2 = no comprado
+    producto.estadoProducto = estado
+
+    try:
+        producto.save()
+        messages.success(request, 'El producto ha cabiado a estado "No Comprado"')
+    except:
+        messages.error(
+            request, 'Error al intentar cambiar el estado del producto')
+
+    return redirect('listado_listas')
+
 
 ####################################################################################################################
-       # CRUD TIENDAS
+    # CRUD TIENDAS
 ####################################################################################################################
 # listar solicitudes de tiendas con estado pendiente
 def listar_solicitud(request):
@@ -217,6 +254,3 @@ def eliminarsolicitud(request, id):
     except:
         messages.error(request, "Error al intentar eliminar la solicitud")
     return redirect('listar_solicitud')
-
-
-
