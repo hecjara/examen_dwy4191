@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'api',
     'pwa',
+    'fcm_django',
 ]
 
 MIDDLEWARE = [
@@ -133,7 +134,18 @@ PWA_APP_NAME = "Listado de compras"
 #icono de la aplicacion en el manifiesto
 PWA_APP_ICONS = [
     {
-        'src':'/static/core/img/carrito_icon.png',
+        'src':'/static/core/img/carrito.png',
         'sizes':'160x160'
     }
 ]
+
+FCM_DJANGO_SETTINGS = {
+        "FCM_SERVER_KEY": "AAAAXLFK-nM:APA91bGbJh1H8m0Qw1FCrIykNY74lFDkPm4OT7VYUuWwsyWmzSdi2awV6985YCFJ-e1taziCkyNYxKIqGcOQBBtn2y8p9gIYJSv7ZXlAKXc24YT_lxRsD_xskBfWbZE1V3DM90QuwQ-D",
+         # true if you want to have only one active device per registered user at a time
+         # default: False
+        "ONE_DEVICE_PER_USER": False,
+         # devices to which notifications cannot be sent,
+         # are deleted upon receiving error response from FCM
+         # default: False
+        "DELETE_INACTIVE_DEVICES": False,
+}

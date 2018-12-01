@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import EstadoLista, EstadoProducto, EstadoTienda, Producto, Lista, Region, Comuna, Tienda
 from django.contrib import messages
+from fcm_django.models import FCMDevice
 from django.db.models import Sum, Count
 
 # Create your views here.
@@ -45,6 +46,13 @@ def agregarlista(request):
 
     try:
         lista.save()
+        dispositivos = FCMDevice.objects.all()
+        dispositivos.send_message(
+            title="Alerta Lista de compras!",
+            body="Se ha agregado una nueva lista!",
+            icon="/static/core/img/carrito.png"
+        )
+
         messages.success(request, 'Lista agregada correctamente')
     except:
         messages.error(request, 'No se ha podido agregar la lista')
@@ -133,6 +141,18 @@ def form_producto(request, id):
 
         try:
             producto.save()
+            dispositivos = FCMDevice.objects.all()
+            
+            dispositivos.send_message(
+                title="Alerta Lista de compras!",
+                body="Se ha agregado un nuevo producto "+ producto.nombre+" a su lista!",
+                icon="/static/core/img/carrito.png"
+            )
+
+
+
+
+
             variables['mensaje'] = 'El producto ha sido agregado a la lista'
         except:
             variables['mensaje'] = 'Error al intentar agregar el producto a la lista'

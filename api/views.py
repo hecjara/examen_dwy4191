@@ -7,6 +7,45 @@ from core.models import EstadoLista, EstadoProducto, EstadoTienda, Producto, Lis
 # Create your views here.
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
+from fcm_django.models import FCMDevice
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def crear_token(request):
+    body = request.body.decode('utf-8')
+
+    body_diccionario = json.loads(body)
+    token = body_diccionario['token']
+
+    existe = FCMDevice.objects.filter(registration_id=token, active=True)
+
+    if existe:
+        mensaje = {
+            'mensaje':'El token ya existe'
+        }
+        return HttpResponseBadRequest(json.dumps(mensaje), content_type="application/json")
+
+
+    dispositivo = FCMDevice()
+    dispositivo.registration_id = token
+    dispositivo.active = True
+
+    if request.user.is_authenticated:
+        dispositivo.user = request.user
+        
+
+    try:
+        dispositivo.save()
+        mensaje = {
+            'mensaje':'token almacenado'
+        }
+        return HttpResponse(json.dumps(mensaje), content_type="application/json")
+    except:
+        mensaje = {
+            'mensaje':'No se ha podido almacenar el token'
+        }
+        return HttpResponseBadRequest(json.dumps(mensaje), content_type="application/json")
+
 
 
 def listar_listas(request):

@@ -59,16 +59,16 @@
                         console.log(token)
 
                         //enviaremos a django el token obtenido desde firebase
-
-                        fetch('api/crear-token/', {
-                            method: 'POST',
-                            body: JSON.stringify({   //json a string
-                                'token': token
+                        
+                        fetch('api/crear-token/',{
+                            method:'POST',
+                            body:JSON.stringify({   //json a string
+                                'token':token
                             })
                         })
-                            .then(function () {
-                                console.log("token enviado")
-                            })
+                        .then(function(){
+                            console.log("token enviado")
+                        })
 
                     })
                     .catch(function (error) {
@@ -79,20 +79,20 @@
 
 
             })
-        //escuchamos los mensajes que nos envia firebase
-        messaging.onMessage(function (payload) {
-
-            console.log(payload)
-
-            var options = {
-                body: payload.notification.body,
-                icon: payload.notification.icon
-            }
-
-            //mostramos la notificacion al usuario
-            var mensaje = new Notification(payload.notification.title, options)
-
-        })
+            //escuchamos los mensajes que nos envia firebase
+            messaging.onMessage(function (payload) {
+            
+                console.log(payload)
+            
+                var options = {
+                    body: payload.notification.body,
+                    icon: payload.notification.icon
+                }
+            
+                //mostramos la notificacion al usuario
+                var mensaje = new Notification(payload.notification.title, options)
+            
+            })
 
     </script>
 

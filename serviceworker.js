@@ -49,12 +49,18 @@ firebase.initializeApp(config);
 
 const messaging = firebase.messaging();
 
+//hacemos que el serviceworker escuche notificaciones
+//que vengan desde firebase
 messaging.setBackgroundMessageHandler(function (payload) {
-    var title = "Titulo de la notificacion"
+
+    var title = "titulo de la notificacion"
     var options = {
         body: "Cuerpo de la notificacion",
         icon: '/static/core/img/carrito.png'
     }
 
+    //mostramos la notificacion al usuario
     return self.registration.showNotification(title, options);
+
+
 })
