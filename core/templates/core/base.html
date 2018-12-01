@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-    {% load pwa %}
+{% load pwa %}
+
 <head>
     {% progressive_web_app_meta %}
     <meta charset="UTF-8">
@@ -17,6 +18,84 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase-messaging.js"></script>
+
+
+    <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDAS6XZPTpwA3Rec7YgY-hUUwhsFk7MNZc",
+            authDomain: "listacompras-95ed0.firebaseapp.com",
+            databaseURL: "https://listacompras-95ed0.firebaseio.com",
+            projectId: "listacompras-95ed0",
+            storageBucket: "listacompras-95ed0.appspot.com",
+            messagingSenderId: "398111472243"
+        };
+        firebase.initializeApp(config);
+
+        const messaging = firebase.messaging();
+
+        //lo primero sera registrar unestro serviceworker
+        //con la libereria de firebase
+
+        navigator.serviceWorker.register('./serviceworker.js')
+            .then(function (register) {
+                //le paso el registro a firebase
+                messaging.useServiceWorker(register);
+
+                //le pedimos al usuario permiso
+                //para enviarle notificaciones
+                messaging.requestPermission()
+                    .then(function () {
+                        //este then se ejecuta cuando el usuario
+                        //acepto que le mostraramos notificaciones
+                        console.log("el usuario ha aceptado")
+                        return messaging.getToken();
+                    })
+                    .then(function (token) {
+                        console.log(token)
+
+                        //enviaremos a django el token obtenido desde firebase
+
+                        fetch('api/crear-token/', {
+                            method: 'POST',
+                            body: JSON.stringify({   //json a string
+                                'token': token
+                            })
+                        })
+                            .then(function () {
+                                console.log("token enviado")
+                            })
+
+                    })
+                    .catch(function (error) {
+                        console.error("el usuario no ha aceptado " + error)
+                    })
+
+
+
+
+            })
+        //escuchamos los mensajes que nos envia firebase
+        messaging.onMessage(function (payload) {
+
+            console.log(payload)
+
+            var options = {
+                body: payload.notification.body,
+                icon: payload.notification.icon
+            }
+
+            //mostramos la notificacion al usuario
+            var mensaje = new Notification(payload.notification.title, options)
+
+        })
+
+    </script>
+
 
 
 </head>
