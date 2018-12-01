@@ -4,6 +4,23 @@
 
 {% block contenido %}
 
+
+<!--
+
+    <br>
+    
+        <a class="btn btn-primary mr-2" href="#">Agregar Producto</a>
+    
+    <br>
+
+
+-->
+
+
+
+
+<br>
+
 <div class="table-responsive">
 
     <table class="table table-dark table-bordered table-hover table-condensed">
@@ -17,6 +34,7 @@
                 <th>Costo Presupuestado</th>
                 <th>Notas Adicionales</th>
                 <th>Estado</th>
+                <th>Cambiar Estado</th>
 
             </thead>
 
@@ -33,6 +51,15 @@
                 <td>{{ p.costo_presupuestado }}</td>
                 <td>{{ p.notas_adicionales }}</td>
                 <td>{{ p.estadoProducto.nombre }}</td>
+                <td>
+                    {% if p.estadoProducto.id == 2 %}
+                        <a href="" class="btn btn-success">Canbiar a comprado</a>
+                    {% else %}
+
+                        <a href="" class="btn btn-danger">Canbiar a No comprado</a>
+                    {% endif %}
+
+                </td>
             </tr>
         
             {% endfor %}
@@ -40,11 +67,7 @@
             
         </tbody>
     
-    
-    
-    
     </table>
-
 
 </div>
 

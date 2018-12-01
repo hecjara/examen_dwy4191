@@ -1,0 +1,54 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% block contenido %}
+
+<br>
+
+<div class="container">
+
+    <h3 class="text-center">Formulario ingreso de producto</h3>
+    <br>
+
+    <form action="" method="POST" id="formularioproducto">
+        {% csrf_token %}
+
+        <input type="hidden" name="txtidlista" id="txtidlista" value="{{ li.id }}">
+
+        <label for="">Nombre Producto:</label>
+        <input type="text" name="txtnombre" id="txtnombre">
+
+        <label for="">Costo Real:</label>
+        <input type="number" name="txtreal" id="txtreal">
+
+        <label for="">Costo Presupuestado:</label>
+        <input type="number" name="txtpresu" id="txtpresu">
+
+        <label for="">Tienda:</label>
+        <select name="cbotienda" id="cbotienda">
+            <option value="">Seleccionar</option>
+            {% for t in ti %}
+            <option value="{{ t.id }}">{{ t.nombre }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="">Notas Adicionales:</label>
+        <input type="text" name="txtnotas" id="txtnotas">
+
+        <input type="submit" value="Ingresar Producto" class="btn btn-primary">
+
+    </form>
+</div>
+
+<br>
+
+<div class="d-flex justify-content-center">
+
+    <h3>{{ mensaje }}</h3>
+
+</div>
+
+<br>
+
+{% endblock contenido %}
