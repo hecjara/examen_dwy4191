@@ -5,8 +5,6 @@ from fcm_django.models import FCMDevice
 from django.db.models import Sum, Count
 
 # Create your views here.
-
-
 def home(request):
     return render(request, 'core/home.html')
 
@@ -36,6 +34,8 @@ def agregarlista(request):
     var1 = 1  # var1 quiere decir el id 1 de estados el cual corresponde al estado de la lista "No completada"
 
     lista = Lista()
+    lista.user = request.user
+    lista.nombre_lista = request.POST.get('txtnombre')
     lista.total_productos_agregados = var0
     lista.total_productos_comprados = var0
     lista.costo_total_presupuestado = var0
@@ -46,32 +46,41 @@ def agregarlista(request):
 
     try:
         lista.save()
-        dispositivos = FCMDevice.objects.all()
-        dispositivos.send_message(
-            title="Alerta Lista de compras!",
-            body="Se ha agregado una nueva lista!",
-            icon="/static/core/img/carrito.png"
-        )
-
         messages.success(request, 'Lista agregada correctamente')
     except:
         messages.error(request, 'No se ha podido agregar la lista')
     return redirect('listado_listas')
 
 # metodo para listar las listas
-
-
 def listar_listas(request):
-
-    listas = Lista.objects.all()
+    listas = Lista.objects.filter(usuario=request.user)
 
     return render(request, 'core/listar_listas.html', {
         'listas': listas
     })
 
+def crear_lista(request):
+    
+    if request.POST:
+        lista = Lista()
+        lista.usuario = request.user
+        lista.nombre_lista = request.POST.get('txtnombre')
+        lista.total_productos_agregados = 0
+        lista.total_productos_comprados = 0
+        lista.costo_total_presupuestado = 0
+        lista.costo_total_real = 0
+        estado = EstadoLista()
+        estado.id = 1
+        lista.estadoLista = estado
+
+        try:
+            lista.save()
+            messages.success(request, 'Lista agregada correctamente')
+        except:
+            messages.error(request, 'No se ha podido agregar la lista')
+    return render(request, 'core/crear_lista.html')
+
 # metodo para eliminar listas
-
-
 def eliminar_lista(request, id):
     # buscar la lista a eliminar
     lista = Lista.objects.get(id=id)
@@ -88,8 +97,6 @@ def eliminar_lista(request, id):
 ####################################################################################################################
     # CRUD PRODUCTOS
 ####################################################################################################################
-
-
 def listar_productos(request, id):
     # Producto.lista es la FK de lista en la tabla producto
     # obtener los productos que tengan el id de la lista seleccionada
@@ -98,20 +105,6 @@ def listar_productos(request, id):
     return render(request, 'core/listar_productos.html', {
         'productos': productos
     })
-"""
-def agregar_productos(request, id):
-    lista = Lista.objects.get(id=id)
-    variables = {
-        'lista':lista,
-        'productos':Producto.objects.filter(lista=id),
-        'tienda':Tienda.objects.all(),
-        'total_real':Producto.objects.filter(lista=id).aggregate(Sum('costo_total_real')),
-        'form':form_producto
-    }
-    return render(request, 'core/listar_productos.html', variables)
-
-"""
-
 
 def form_producto(request, id):
     li = Lista.objects.get(id=id)
@@ -120,12 +113,11 @@ def form_producto(request, id):
         'li': li,
         'ti': ti
     }
-
+    #agregar nombre lista
     if request.POST:
         producto = Producto()
-        lis = Lista()
-        lis.id = request.POST.get('txtidlista')
-        producto.lista = lis
+        li.id = request.POST.get('txtidlista')
+        producto.lista = li
         producto.nombre = request.POST.get('txtnombre')
         producto.costo_presupuestado = request.POST.get('txtpresu')
         producto.costo_real = request.POST.get('txtreal')
@@ -136,22 +128,15 @@ def form_producto(request, id):
         tienda = Tienda()
         tienda.id = request.POST.get('cbotienda')
         producto.tienda = tienda
-
         
+        #agregar el valor del producto a la lista
+        li.costo_total_presupuestado =  li.costo_total_presupuestado + int(request.POST.get('txtpresu'))
+        li.costo_total_real = li.costo_total_real + int(request.POST.get('txtreal'))
+        li.total_productos_agregados = li.total_productos_agregados + 1
 
         try:
             producto.save()
-            dispositivos = FCMDevice.objects.all()
-            
-            dispositivos.send_message(
-                title="Alerta Lista de compras!",
-                body="Se ha agregado un nuevo producto "+ producto.nombre+" a su lista!",
-                icon="/static/core/img/carrito.png"
-            )
-
-
-
-
+            li.save()
 
             variables['mensaje'] = 'El producto ha sido agregado a la lista'
         except:
@@ -159,6 +144,8 @@ def form_producto(request, id):
 
     return render(request, 'core/form_producto.html', variables)
 
+
+#para capturar el error e imprimirlo!!!
 # except Exception as e:
 #variables['mensaje'] = 'no guardado '+ str(e)
 
@@ -209,8 +196,6 @@ def listar_solicitud(request):
     })
 
 # solicitud para agregar tienda
-
-
 def agregartienda(request):
     # estado por defecto de la tienda pendiente, el admin lo pasara a estado 2 o 3 (aceptado o rechazado respectivamente)
     var1 = 1
@@ -260,8 +245,6 @@ def aprobartienda(request, id):
     return redirect('listar_solicitud')
 
 # rechazhar la solicitud
-
-
 def rechazartienda(request, id):
     tienda = Tienda.objects.get(id=id)
 
@@ -278,8 +261,6 @@ def rechazartienda(request, id):
     return redirect('listar_solicitud')
 
 # eliminar la solicitud
-
-
 def eliminarsolicitud(request, id):
     tienda = Tienda.objects.get(id=id)
 
@@ -290,3 +271,19 @@ def eliminarsolicitud(request, id):
     except:
         messages.error(request, "Error al intentar eliminar la solicitud")
     return redirect('listar_solicitud')
+
+
+
+"""
+def agregar_productos(request, id):
+    lista = Lista.objects.get(id=id)
+    variables = {
+        'lista':lista,
+        'productos':Producto.objects.filter(lista=id),
+        'tienda':Tienda.objects.all(),
+        'total_real':Producto.objects.filter(lista=id).aggregate(Sum('costo_total_real')),
+        'form':form_producto
+    }
+    return render(request, 'core/listar_productos.html', variables)
+
+"""

@@ -1,0 +1,17 @@
+{% extends "core/base.html" %}
+
+{% block contenido %}
+    <h4>Crear Lista</h4>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <label for="txtnombre">Ingrese nombre de la lista</label>
+        <input type="text" name="txtnombre" id="txtnombre">
+        <input type="submit" value="Agregar Lista">
+    </form>
+
+    {% if messages %}
+    {% for m in messages %}
+        <div>{{ m }}</div>
+    {% endfor %}
+    {% endif %}
+{% endblock contenido %}
