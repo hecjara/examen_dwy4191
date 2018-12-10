@@ -4,21 +4,6 @@
 
 {% block contenido %}
 
-
-<!--
-
-    <br>
-    
-        <a class="btn btn-primary mr-2" href="#">Agregar Producto</a>
-    
-    <br>
-
-
--->
-
-
-
-
 <br>
 
 <div class="table-responsive">
@@ -36,15 +21,16 @@
                 <th>Notas Adicionales</th>
                 <th>Estado</th>
                 <th>Cambiar Estado</th>
+                <th>Remover Producto</th>
 
             </thead>
 
         </tr>
 
         <tbody>
-            
+
             {% for p in productos %}
-            
+
             <tr>
                 <td>{{ p.lista.id }}</td>
                 <td>{{ p.id }}</td>
@@ -55,18 +41,21 @@
                 <td>{{ p.estadoProducto.nombre }}</td>
                 <td>
                     {% if p.estadoProducto.id == 2 %}
-                        <a href="{% url 'estado_comprado' p.id %}" class="btn btn-success">Cambiar a comprado</a>
+                    <a href="{% url 'estado_comprado' p.id %}" class="btn btn-success">Cambiar a comprado</a>
                     {% else %}
-                        <a href="{% url 'estado_nocomprado' p.id %}" class="btn btn-danger">Cambiar a No comprado</a>
+                    <a href="{% url 'estado_nocomprado' p.id %}" class="btn btn-danger">Cambiar a No comprado</a>
                     {% endif %}
                 </td>
+                <td>
+                    <a href="{% url 'eliminar_producto' p.id %}" class="btn btn-primary">Remover</a>
+                </td>
             </tr>
-        
+
             {% endfor %}
 
-            
+
         </tbody>
-    
+
     </table>
 
 </div>

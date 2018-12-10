@@ -149,10 +149,32 @@ def form_producto(request, id):
 # except Exception as e:
 #variables['mensaje'] = 'no guardado '+ str(e)
 
+def eliminar_producto(request, id):
+    producto = Producto.objects.get(id=id)
+    lista = Lista.objects.get(id=producto.lista.id)
+
+    lista.total_productos_comprados = int(lista.total_productos_comprados) - 1  #restar un producto comprado a la lista
+    lista.total_productos_agregados = int(lista.total_productos_agregados) - 1
+    lista.costo_total_real = (int(lista.costo_total_real) - int(producto.costo_real))
+    lista.costo_total_presupuestado = (int(lista.costo_total_presupuestado) - int(producto.costo_presupuestado))
+
+    try:
+        producto.delete()
+        lista.save()
+        messages.success(request, 'El producto ha sido eliminado de la lista')
+    except:
+        messages.error(
+            request, 'Error al intentar eliminar el producto')
+
+    return redirect('listado_listas')
+
 
 # cambiar a comprado
 def estado_comprado(request, id):
     producto = Producto.objects.get(id=id)
+    lista = Lista.objects.get(id=producto.lista.id)
+
+    lista.total_productos_comprados = int(lista.total_productos_comprados) + 1  #agregar un producto comprado a la lista
 
     estado = EstadoProducto()
     estado.id = 1  # 1 = comprado
@@ -160,6 +182,7 @@ def estado_comprado(request, id):
 
     try:
         producto.save()
+        lista.save()
         messages.success(request, 'El producto ha cabiado a estado "Comprado"')
     except:
         messages.error(
@@ -169,7 +192,10 @@ def estado_comprado(request, id):
 
 # cambiar a no comprado
 def estado_nocomprado(request, id):
-    producto = Producto.objects.get(id=id)
+    producto = Producto.objects.get(id=id) 
+    lista = Lista.objects.get(id=producto.lista.id)
+
+    lista.total_productos_comprados = int(lista.total_productos_comprados) - 1  #restar un producto comprado a la lista
 
     estado = EstadoProducto()
     estado.id = 2  # 2 = no comprado
@@ -177,6 +203,7 @@ def estado_nocomprado(request, id):
 
     try:
         producto.save()
+        lista.save()
         messages.success(request, 'El producto ha cabiado a estado "No Comprado"')
     except:
         messages.error(
