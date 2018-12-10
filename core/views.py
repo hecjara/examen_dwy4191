@@ -23,9 +23,9 @@ def tiendasaprobadas(request):
     })
 
 
-####################################################################################################################
+#####################################################################################################################
     # CRUD LISTAS
-####################################################################################################################
+#####################################################################################################################
 
 # metodo para agregar listas
 def agregarlista(request):
@@ -272,18 +272,3 @@ def eliminarsolicitud(request, id):
         messages.error(request, "Error al intentar eliminar la solicitud")
     return redirect('listar_solicitud')
 
-
-
-"""
-def agregar_productos(request, id):
-    lista = Lista.objects.get(id=id)
-    variables = {
-        'lista':lista,
-        'productos':Producto.objects.filter(lista=id),
-        'tienda':Tienda.objects.all(),
-        'total_real':Producto.objects.filter(lista=id).aggregate(Sum('costo_total_real')),
-        'form':form_producto
-    }
-    return render(request, 'core/listar_productos.html', variables)
-
-"""
