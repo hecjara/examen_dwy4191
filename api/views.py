@@ -12,12 +12,13 @@ from fcm_django.models import FCMDevice
 @csrf_exempt
 @require_http_methods(['POST'])
 def crear_token(request):
+
     body = request.body.decode('utf-8')
 
     body_diccionario = json.loads(body)
     token = body_diccionario['token']
 
-    existe = FCMDevice.objects.filter(registration_id=token, active=True)
+    existe  = FCMDevice.objects.filter(registration_id=token, active=True)
 
     if existe:
         mensaje = {
@@ -25,14 +26,12 @@ def crear_token(request):
         }
         return HttpResponseBadRequest(json.dumps(mensaje), content_type="application/json")
 
-
     dispositivo = FCMDevice()
     dispositivo.registration_id = token
     dispositivo.active = True
 
     if request.user.is_authenticated:
         dispositivo.user = request.user
-        
 
     try:
         dispositivo.save()
@@ -45,7 +44,6 @@ def crear_token(request):
             'mensaje':'No se ha podido almacenar el token'
         }
         return HttpResponseBadRequest(json.dumps(mensaje), content_type="application/json")
-
 
 
 def listar_listas(request):

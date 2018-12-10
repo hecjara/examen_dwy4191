@@ -47,6 +47,7 @@ var config = {
 };
 firebase.initializeApp(config);
 
+
 const messaging = firebase.messaging();
 
 //hacemos que el serviceworker escuche notificaciones
@@ -61,6 +62,4 @@ messaging.setBackgroundMessageHandler(function (payload) {
 
     //mostramos la notificacion al usuario
     return self.registration.showNotification(title, options);
-
-
 })
