@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from .models import EstadoLista, EstadoProducto, EstadoTienda, Producto, Lista, Region, Comuna, Tienda
 from django.contrib import messages
 from fcm_django.models import FCMDevice
-from django.db.models import Sum, Count
 
 # Create your views here.
 def home(request):
@@ -183,6 +182,15 @@ def estado_comprado(request, id):
     try:
         producto.save()
         lista.save()
+
+        if lista.total_productos_agregados == lista.total_productos_comprados:
+                dispositivos = FCMDevice.objects.all()
+                dispositivos.send_message(
+                title="Alerta Listas!",
+                body="Se ha completado la lista " + lista.nombre_lista,
+                icon="/static/core/img/carrito.png"
+            )
+
         messages.success(request, 'El producto ha cabiado a estado "Comprado"')
     except:
         messages.error(

@@ -55,7 +55,11 @@
                 <td>{{ l.total_productos_comprados }}</td>
                 <td>{{ l.costo_total_presupuestado }}</td>
                 <td>{{ l.costo_total_real }}</td>
-                <td>{{ l.estadoLista.nombre }}</td>
+
+                <td>
+                    <a href="" class="btn btn-outline-danger">{{ l.estadoLista.nombre }}</a>
+                </td>
+
                 <td>
                     <a class="btn btn-primary mr-2" href="{% url 'form_producto' l.id %}">Agregar Producto</a>
                     <a class="btn btn-primary mr-2" href="{% url 'listar_productos' l.id %}" >Administrar Productos</a>
