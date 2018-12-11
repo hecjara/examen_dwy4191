@@ -5,6 +5,8 @@ from fcm_django.models import FCMDevice
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
+
 def home(request):
     return render(request, 'core/home.html')
 
@@ -53,6 +55,8 @@ def agregarlista(request):
     return redirect('listado_listas')
 
 # metodo para listar las listas
+
+
 @login_required
 def listar_listas(request):
     listas = Lista.objects.filter(usuario=request.user)
@@ -61,9 +65,10 @@ def listar_listas(request):
         'listas': listas
     })
 
+
 @login_required
 def crear_lista(request):
-    
+
     if request.POST:
         lista = Lista()
         lista.usuario = request.user
@@ -84,6 +89,8 @@ def crear_lista(request):
     return render(request, 'core/crear_lista.html')
 
 # metodo para eliminar listas
+
+
 @login_required
 def eliminar_lista(request, id):
     # buscar la lista a eliminar
@@ -101,6 +108,8 @@ def eliminar_lista(request, id):
 ####################################################################################################################
     # CRUD PRODUCTOS
 ####################################################################################################################
+
+
 @login_required
 def listar_productos(request, id):
     # Producto.lista es la FK de lista en la tabla producto
@@ -120,7 +129,7 @@ def form_producto(request, id):
         'li': li,
         'ti': ti
     }
-    #agregar nombre lista
+    # agregar nombre lista
     if request.POST:
         producto = Producto()
         li.id = request.POST.get('txtidlista')
@@ -135,10 +144,12 @@ def form_producto(request, id):
         tienda = Tienda()
         tienda.id = request.POST.get('cbotienda')
         producto.tienda = tienda
-        
-        #agregar el valor del producto a la lista
-        li.costo_total_presupuestado =  li.costo_total_presupuestado + int(request.POST.get('txtpresu'))
-        li.costo_total_real = li.costo_total_real + int(request.POST.get('txtreal'))
+
+        # agregar el valor del producto a la lista
+        li.costo_total_presupuestado = li.costo_total_presupuestado + \
+            int(request.POST.get('txtpresu'))
+        li.costo_total_real = li.costo_total_real + \
+            int(request.POST.get('txtreal'))
         li.total_productos_agregados = li.total_productos_agregados + 1
 
         try:
@@ -152,7 +163,7 @@ def form_producto(request, id):
     return render(request, 'core/form_producto.html', variables)
 
 
-#para capturar el error e imprimirlo!!!
+# para capturar el error e imprimirlo!!!
 # except Exception as e:
 #variables['mensaje'] = 'no guardado '+ str(e)
 
@@ -161,10 +172,13 @@ def eliminar_producto(request, id):
     producto = Producto.objects.get(id=id)
     lista = Lista.objects.get(id=producto.lista.id)
 
-    lista.total_productos_comprados = int(lista.total_productos_comprados) - 1  #restar un producto comprado a la lista
+    # restar un producto comprado a la lista
+    lista.total_productos_comprados = int(lista.total_productos_comprados) - 1
     lista.total_productos_agregados = int(lista.total_productos_agregados) - 1
-    lista.costo_total_real = (int(lista.costo_total_real) - int(producto.costo_real))
-    lista.costo_total_presupuestado = (int(lista.costo_total_presupuestado) - int(producto.costo_presupuestado))
+    lista.costo_total_real = (
+        int(lista.costo_total_real) - int(producto.costo_real))
+    lista.costo_total_presupuestado = (
+        int(lista.costo_total_presupuestado) - int(producto.costo_presupuestado))
 
     try:
         producto.delete()
@@ -184,26 +198,27 @@ def estado_comprado(request, id):
     lista = Lista.objects.get(id=producto.lista.id)
     estadolista = EstadoLista()
 
-    lista.total_productos_comprados = int(lista.total_productos_comprados) + 1  #agregar un producto comprado a la lista
+    # agregar un producto comprado a la lista
+    lista.total_productos_comprados = int(lista.total_productos_comprados) + 1
 
     estado = EstadoProducto()
     estado.id = 1  # 1 = comprado
     producto.estadoProducto = estado
 
     if lista.total_productos_agregados == lista.total_productos_comprados:
-         estadolista.id = 2
-         lista.estadoLista = estadolista
+        estadolista.id = 2
+        lista.estadoLista = estadolista
     else:
-         estadolista.id = 1
-         lista.estadoLista = estadolista
+        estadolista.id = 1
+        lista.estadoLista = estadolista
 
     try:
         producto.save()
         lista.save()
 
         if lista.total_productos_agregados == lista.total_productos_comprados:
-                dispositivos = FCMDevice.objects.all()
-                dispositivos.send_message(
+            dispositivos = FCMDevice.objects.all()
+            dispositivos.send_message(
                 title="Alerta Listas!",
                 body="Se ha completado la lista " + lista.nombre_lista,
                 icon="/static/core/img/carrito.png"
@@ -217,21 +232,33 @@ def estado_comprado(request, id):
     return redirect('listado_listas')
 
 # cambiar a no comprado
+
+
 @login_required
 def estado_nocomprado(request, id):
-    producto = Producto.objects.get(id=id) 
+    producto = Producto.objects.get(id=id)
     lista = Lista.objects.get(id=producto.lista.id)
+    estadolista = EstadoLista()
 
-    lista.total_productos_comprados = int(lista.total_productos_comprados) - 1  #restar un producto comprado a la lista
+    # restar un producto comprado a la lista
+    lista.total_productos_comprados = int(lista.total_productos_comprados) - 1
 
     estado = EstadoProducto()
     estado.id = 2  # 2 = no comprado
     producto.estadoProducto = estado
 
+    if lista.total_productos_agregados > lista.total_productos_comprados:
+        estadolista.id = 1
+        lista.estadoLista = estadolista
+    elif lista.total_productos_agregados == lista.total_productos_comprados:
+        estadolista.id = 2
+        lista.estadoLista = estadolista
+
     try:
         producto.save()
         lista.save()
-        messages.success(request, 'El producto ha cabiado a estado "No Comprado"')
+        messages.success(
+            request, 'El producto ha cabiado a estado "No Comprado"')
     except:
         messages.error(
             request, 'Error al intentar cambiar el estado del producto')
@@ -251,6 +278,8 @@ def listar_solicitud(request):
     })
 
 # solicitud para agregar tienda
+
+
 @login_required
 def agregartienda(request):
     # estado por defecto de la tienda pendiente, el admin lo pasara a estado 2 o 3 (aceptado o rechazado respectivamente)
@@ -284,6 +313,7 @@ def agregartienda(request):
 
 # aprobar la solicitud
 
+
 @login_required
 def aprobartienda(request, id):
     tienda = Tienda.objects.get(id=id)
@@ -301,6 +331,8 @@ def aprobartienda(request, id):
     return redirect('listar_solicitud')
 
 # rechazhar la solicitud
+
+
 @login_required
 def rechazartienda(request, id):
     tienda = Tienda.objects.get(id=id)
@@ -318,6 +350,8 @@ def rechazartienda(request, id):
     return redirect('listar_solicitud')
 
 # eliminar la solicitud
+
+
 @login_required
 def eliminarsolicitud(request, id):
     tienda = Tienda.objects.get(id=id)
@@ -329,4 +363,3 @@ def eliminarsolicitud(request, id):
     except:
         messages.error(request, "Error al intentar eliminar la solicitud")
     return redirect('listar_solicitud')
-
