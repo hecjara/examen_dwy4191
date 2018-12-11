@@ -57,7 +57,7 @@ messaging.setBackgroundMessageHandler(function (payload) {
     var title = "titulo de la notificacion"
     var options = {
         body: "Cuerpo de la notificacion",
-        icon: '/static/core/img/carrito.png'
+        icon: '/static/core/img/bolsa.png'
     }
 
     //mostramos la notificacion al usuario

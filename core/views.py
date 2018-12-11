@@ -61,6 +61,8 @@ def agregarlista(request):
 def listar_listas(request):
     listas = Lista.objects.filter(usuario=request.user)
 
+
+
     return render(request, 'core/listar_listas.html', {
         'listas': listas
     })
@@ -155,6 +157,14 @@ def form_producto(request, id):
         try:
             producto.save()
             li.save()
+            
+            if li.costo_total_real > li.costo_total_presupuestado:
+                dispositivos = FCMDevice.objects.all()
+                dispositivos.send_message(
+                title="Alerta Listas!",
+                body="Se ha completado la lista " + li.nombre_lista,
+                icon="/static/core/img/bolsa.png"
+            )
 
             variables['mensaje'] = 'El producto ha sido agregado a la lista'
         except:
@@ -221,7 +231,7 @@ def estado_comprado(request, id):
             dispositivos.send_message(
                 title="Alerta Listas!",
                 body="Se ha completado la lista " + lista.nombre_lista,
-                icon="/static/core/img/carrito.png"
+                icon="/static/core/img/bolsa.png"
             )
 
         messages.success(request, 'El producto ha cabiado a estado "Comprado"')

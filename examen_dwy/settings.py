@@ -141,8 +141,8 @@ PWA_APP_NAME = "Listado de compras"
 #icono de la aplicacion en el manifiesto
 PWA_APP_ICONS = [
     {
-        'src':'/static/core/img/carrito.png',
-        'sizes':'160x160'
+        'src':'/static/core/img/bolsa.png',
+        'sizes':'192x192'
     }
 ]
 

@@ -35,7 +35,7 @@
         <thead>
 
             <tr>
-                <th>ID Lista</th>
+                <th>Lista</th>
                 <th>Productos Agregados</th>
                 <th>Productos Comprados</th>
                 <th>Total Presupuestado</th>
@@ -50,7 +50,7 @@
 
             {% for l in listas %}
             <tr>
-                <td>{{ l.id }}</td>
+                <td>{{ l.nombre_lista }}</td>
                 <td>{{ l.total_productos_agregados }}</td>
                 <td>{{ l.total_productos_comprados }}</td>
                 <td>{{ l.costo_total_presupuestado }}</td>
