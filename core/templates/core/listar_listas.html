@@ -56,9 +56,17 @@
                 <td>{{ l.costo_total_presupuestado }}</td>
                 <td>{{ l.costo_total_real }}</td>
 
-                <td>
-                    <a href="" class="btn btn-outline-danger">{{ l.estadoLista.nombre }}</a>
-                </td>
+
+                {% if l.estadoLista.id == 1 %}
+                    <td>
+                        <a href="" class="btn btn-outline-danger">{{ l.estadoLista.nombre }}</a>
+                    </td>
+                {% else %}  
+                    <td>
+                        <a href="" class="btn btn-outline-success">{{ l.estadoLista.nombre }}</a>
+                    </td>
+                {% endif %}
+
 
                 <td>
                     <a class="btn btn-primary mr-2" href="{% url 'form_producto' l.id %}">Agregar Producto</a>

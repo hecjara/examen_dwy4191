@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import EstadoLista, EstadoProducto, EstadoTienda, Producto, Lista, Region, Comuna, Tienda
 from django.contrib import messages
 from fcm_django.models import FCMDevice
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
@@ -27,6 +28,7 @@ def tiendasaprobadas(request):
 #####################################################################################################################
 
 # metodo para agregar listas
+@login_required
 def agregarlista(request):
     # valores por defecto para una lista recien creada var0 y var1
     var0 = 0  # con var0 quiere decir que la lista comenzara con ambas cantidades de producto en 0 de igual manera para los valores de dinero pues no tendra productos agregados que contar
@@ -51,6 +53,7 @@ def agregarlista(request):
     return redirect('listado_listas')
 
 # metodo para listar las listas
+@login_required
 def listar_listas(request):
     listas = Lista.objects.filter(usuario=request.user)
 
@@ -58,6 +61,7 @@ def listar_listas(request):
         'listas': listas
     })
 
+@login_required
 def crear_lista(request):
     
     if request.POST:
@@ -80,6 +84,7 @@ def crear_lista(request):
     return render(request, 'core/crear_lista.html')
 
 # metodo para eliminar listas
+@login_required
 def eliminar_lista(request, id):
     # buscar la lista a eliminar
     lista = Lista.objects.get(id=id)
@@ -96,6 +101,7 @@ def eliminar_lista(request, id):
 ####################################################################################################################
     # CRUD PRODUCTOS
 ####################################################################################################################
+@login_required
 def listar_productos(request, id):
     # Producto.lista es la FK de lista en la tabla producto
     # obtener los productos que tengan el id de la lista seleccionada
@@ -105,6 +111,8 @@ def listar_productos(request, id):
         'productos': productos
     })
 
+
+@login_required
 def form_producto(request, id):
     li = Lista.objects.get(id=id)
     ti = Tienda.objects.all()
@@ -148,6 +156,7 @@ def form_producto(request, id):
 # except Exception as e:
 #variables['mensaje'] = 'no guardado '+ str(e)
 
+@login_required
 def eliminar_producto(request, id):
     producto = Producto.objects.get(id=id)
     lista = Lista.objects.get(id=producto.lista.id)
@@ -169,15 +178,24 @@ def eliminar_producto(request, id):
 
 
 # cambiar a comprado
+@login_required
 def estado_comprado(request, id):
     producto = Producto.objects.get(id=id)
     lista = Lista.objects.get(id=producto.lista.id)
+    estadolista = EstadoLista()
 
     lista.total_productos_comprados = int(lista.total_productos_comprados) + 1  #agregar un producto comprado a la lista
 
     estado = EstadoProducto()
     estado.id = 1  # 1 = comprado
     producto.estadoProducto = estado
+
+    if lista.total_productos_agregados == lista.total_productos_comprados:
+         estadolista.id = 2
+         lista.estadoLista = estadolista
+    else:
+         estadolista.id = 1
+         lista.estadoLista = estadolista
 
     try:
         producto.save()
@@ -199,6 +217,7 @@ def estado_comprado(request, id):
     return redirect('listado_listas')
 
 # cambiar a no comprado
+@login_required
 def estado_nocomprado(request, id):
     producto = Producto.objects.get(id=id) 
     lista = Lista.objects.get(id=producto.lista.id)
@@ -224,6 +243,7 @@ def estado_nocomprado(request, id):
     # CRUD TIENDAS
 ####################################################################################################################
 # listar solicitudes de tiendas con estado pendiente
+@login_required
 def listar_solicitud(request):
     pendientes = Tienda.objects.filter(estado_tienda=1)
     return render(request, 'core/listar_solicitud.html', {
@@ -231,6 +251,7 @@ def listar_solicitud(request):
     })
 
 # solicitud para agregar tienda
+@login_required
 def agregartienda(request):
     # estado por defecto de la tienda pendiente, el admin lo pasara a estado 2 o 3 (aceptado o rechazado respectivamente)
     var1 = 1
@@ -263,7 +284,7 @@ def agregartienda(request):
 
 # aprobar la solicitud
 
-
+@login_required
 def aprobartienda(request, id):
     tienda = Tienda.objects.get(id=id)
 
@@ -280,6 +301,7 @@ def aprobartienda(request, id):
     return redirect('listar_solicitud')
 
 # rechazhar la solicitud
+@login_required
 def rechazartienda(request, id):
     tienda = Tienda.objects.get(id=id)
 
@@ -296,6 +318,7 @@ def rechazartienda(request, id):
     return redirect('listar_solicitud')
 
 # eliminar la solicitud
+@login_required
 def eliminarsolicitud(request, id):
     tienda = Tienda.objects.get(id=id)
 
