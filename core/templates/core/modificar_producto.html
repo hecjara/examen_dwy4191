@@ -11,9 +11,6 @@
     <h3 class="text-center">Formulario modificar producto</h3>
     <br>
 
-
-
-
     <form action="" method="POST" id="formularioproducto">
         {% csrf_token %}
 
@@ -67,8 +64,6 @@
             </div>
 
         </div>
-
-
 
         <input type="hidden" name="txt_costo_total_real" id="txt_costo_total_real" value="{{ producto.lista.costo_total_real }}">
         <input type="hidden" name="txt_costo_total_presu" id="txt_costo_total_presu" value="{{ producto.lista.costo_total_presupuestado }}">

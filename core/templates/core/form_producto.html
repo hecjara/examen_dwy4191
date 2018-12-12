@@ -16,25 +16,41 @@
 
         <input type="hidden" name="txtidlista" id="txtidlista" value="{{ li.id }}">
 
-        <label for="">Nombre Producto:</label>
-        <input type="text" name="txtnombre" id="txtnombre">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="">Nombre Producto:</label>
+                <input type="text" name="txtnombre" id="txtnombre" class="form-control">
+            </div>
+        </div>
 
-        <label for="">Costo Real:</label>
-        <input type="number" name="txtreal" id="txtreal">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="">Costo Real:</label>
+                <input type="number" name="txtreal" id="txtreal" class="form-control">
+            </div>
 
-        <label for="">Costo Presupuestado:</label>
-        <input type="number" name="txtpresu" id="txtpresu">
+            <div class="form-group col-md-6">
+                <label for="">Costo Presupuestado:</label>
+                <input type="number" name="txtpresu" id="txtpresu" class="form-control">
+            </div>
+        </div>
 
-        <label for="">Tienda:</label>
-        <select name="cbotienda" id="cbotienda">
-            <option value="">Seleccionar</option>
-            {% for t in ti %}
-            <option value="{{ t.id }}">{{ t.nombre }}</option>
-            {% endfor %}
-        </select>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="">Tienda:</label>
+                <select name="cbotienda" id="cbotienda" class="form-control">
+                    <option value="">Seleccionar</option>
+                    {% for t in ti %}
+                    <option value="{{ t.id }}">{{ t.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <label for="">Notas Adicionales:</label>
-        <input type="text" name="txtnotas" id="txtnotas">
+            <div class="form-group col-md-6">
+                <label for="">Notas Adicionales:</label>
+                <input type="text" name="txtnotas" id="txtnotas" class="form-control">
+            </div>
+        </div>
 
         <input type="submit" value="Ingresar Producto" class="btn btn-primary">
 

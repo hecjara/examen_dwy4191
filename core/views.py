@@ -124,7 +124,7 @@ def listar_productos(request, id):
 @login_required
 def form_producto(request, id):
     li = Lista.objects.get(id=id)
-    ti = Tienda.objects.all()
+    ti = Tienda.objects.filter(estado_tienda=2) #solo listara las tiendas que ya han sido aprobadas
     variables = {
         'li': li,
         'ti': ti
