@@ -1,0 +1,74 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% block contenido %}
+
+<br>
+
+<div class="container">
+
+    <h3 class="text-center">Formulario modificar producto</h3>
+    <br>
+
+    <form action="" method="POST" id="formularioproducto">
+        {% csrf_token %}
+
+        <input type="hidden" name="txtid" id="txtid" value="{{ producto.id }}">
+
+        <input type="hidden" name="txtestado" id="txtestado" value="{{ producto.estadoProducto.id }}">
+
+        <input type="hidden" name="txtlista" id="txtlista" value="{{ producto.lista.id }}">
+
+        <label for="">Nombre Producto:</label>
+        <input type="text" name="txtnombre" id="txtnombre" value="{{ producto.nombre }}">
+
+        <label for="">Costo Real:</label>
+        <input type="number" name="txtreal" id="txtreal" value="{{ producto.costo_real }}">
+
+        <label for="">Costo Presupuestado:</label>
+        <input type="number" name="txtpresu" id="txtpresu" value="{{ producto.costo_presupuestado }}">
+
+        <input type="hidden" name="txt_costo_total_real" id="txt_costo_total_real" value="{{ producto.lista.costo_total_real }}">
+        <input type="hidden" name="txt_costo_total_presu" id="txt_costo_total_presu" value="{{ producto.lista.costo_total_presupuestado }}">
+        <input type="hidden" name="txt_costo_real" id="txt_costo_real" value="{{ producto.costo_real }}">
+        <input type="hidden" name="txt_costo_presu" id="txt_costo_presu" value="{{ producto.costo_presupuestado }}">
+
+        
+
+        <label for="">Tienda:</label>
+        <select name="cbotienda" id="cbotienda">
+            <option value="">Seleccionar</option>
+
+            {% for t in ti %}
+
+            <option 
+            
+            {% if t.id == producto.tienda.id %}
+            {{'selected'}}
+            {% endif %}
+
+            value="{{ t.id }}">{{ t.nombre }}</option>
+
+            {% endfor %}
+        </select>
+
+        <label for="">Notas Adicionales:</label>
+        <input type="text" name="txtnotas" id="txtnotas" value="{{ producto.notas_adicionales }}">
+
+        <input type="submit" value="Modificar Producto" class="btn btn-primary">
+
+    </form>
+</div>
+
+<br>
+
+<div class="d-flex justify-content-center">
+
+    <h3>{{ mensaje }}</h3>
+
+</div>
+
+<br>
+
+{% endblock contenido %}

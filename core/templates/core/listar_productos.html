@@ -22,6 +22,7 @@
                 <th>Estado</th>
                 <th>Cambiar Estado</th>
                 <th>Remover Producto</th>
+                <th>Modificar</th>
 
             </thead>
 
@@ -48,6 +49,9 @@
                 </td>
                 <td>
                     <a href="{% url 'eliminar_producto' p.id %}" class="btn btn-primary">Remover</a>
+                </td>
+                <td>
+                    <a href="{% url 'modificar_producto' p.id %}" class="btn btn-primary">Modificar</a>
                 </td>
             </tr>
 

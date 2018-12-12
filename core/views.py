@@ -61,8 +61,6 @@ def agregarlista(request):
 def listar_listas(request):
     listas = Lista.objects.filter(usuario=request.user)
 
-
-
     return render(request, 'core/listar_listas.html', {
         'listas': listas
     })
@@ -131,7 +129,7 @@ def form_producto(request, id):
         'li': li,
         'ti': ti
     }
-    # agregar nombre lista
+
     if request.POST:
         producto = Producto()
         li.id = request.POST.get('txtidlista')
@@ -157,14 +155,14 @@ def form_producto(request, id):
         try:
             producto.save()
             li.save()
-            
+
             if li.costo_total_real > li.costo_total_presupuestado:
                 dispositivos = FCMDevice.objects.all()
                 dispositivos.send_message(
-                title="Alerta Listas!",
-                body="Se ha completado la lista " + li.nombre_lista,
-                icon="/static/core/img/bolsa.png"
-            )
+                    title="Alerta Listas!",
+                    body="El valor real ha superado el valor presupuestado en la lista " + li.nombre_lista,
+                    icon="/static/core/img/bolsa.png"
+                )
 
             variables['mensaje'] = 'El producto ha sido agregado a la lista'
         except:
@@ -176,6 +174,62 @@ def form_producto(request, id):
 # para capturar el error e imprimirlo!!!
 # except Exception as e:
 #variables['mensaje'] = 'no guardado '+ str(e)
+
+
+def modificar_producto(request, id):
+    producto = Producto.objects.get(id=id)
+    lista = Lista.objects.get(id=producto.lista.id)
+    ti = Tienda.objects.all()
+    variables = {
+        'producto': producto,
+        'ti': ti,
+        'lista': lista
+    }
+
+    if request.POST:
+        producto = Producto()
+        producto.id = request.POST.get('txtid')
+        producto.nombre = request.POST.get('txtnombre')
+
+        # se le resta el valor anterior del producto al valor de la lista
+        var_presu = int(request.POST.get('txt_costo_total_presu')) - int(request.POST.get('txt_costo_presu'))
+        # nuevo valor presupuestado
+        producto.costo_presupuestado = request.POST.get('txtpresu')
+
+        # se le resta el valor real anterior al valor total real anterior
+        var_real = int(request.POST.get('txt_costo_total_real')) - int(request.POST.get('txt_costo_real'))
+        # nuevo valor real
+        producto.costo_real = request.POST.get('txtreal')
+
+        producto.notas_adicionales = request.POST.get('txtnotas')
+        tienda = Tienda()
+        tienda.id = request.POST.get('cbotienda')
+        producto.tienda = tienda
+
+        estado = EstadoProducto()
+        estado.id = request.POST.get('txtestado')
+        producto.estadoProducto = estado
+
+        lis = Lista()
+        lis.id = request.POST.get('txtlista')
+        producto.lista = lis
+
+
+        # agregar el valor del producto a la lista
+        lista.costo_total_presupuestado = var_presu + int(request.POST.get('txtpresu'))   #el valor total presupuestado actualizado + el nuevo valor presupuestado del producto
+        lista.costo_total_real = var_real + int(request.POST.get('txtreal'))  #el valor total real actualizado + el nuevo valor real del producto
+
+        try:
+            producto.save()
+            lista.save()
+
+            messages.success(request, 'Producto modificado correctamente')
+        except Exception as e:
+            messages.error(request, 'Error al intentar modificar el producto '+ str(e))
+        return redirect('listado_listas')
+
+    return render(request, 'core/modificar_producto.html', variables)
+
 
 @login_required
 def eliminar_producto(request, id):
