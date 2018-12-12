@@ -223,6 +223,15 @@ def modificar_producto(request, id):
             producto.save()
             lista.save()
 
+            if lista.costo_total_real > lista.costo_total_presupuestado:
+                dispositivos = FCMDevice.objects.all()
+                dispositivos.send_message(
+                    title="Alerta Listas!",
+                    body="El valor real ha superado el valor presupuestado en la lista " + lista.nombre_lista,
+                    icon="/static/core/img/bolsa.png"
+                )
+
+
             messages.success(request, 'Producto modificado correctamente')
         except Exception as e:
             messages.error(request, 'Error al intentar modificar el producto '+ str(e))
