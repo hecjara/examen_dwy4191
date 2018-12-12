@@ -34,13 +34,13 @@
         <thead>
 
             <tr>
-                <th>Nro. Solicitud</th>
-                <th>Nombre Tienda</th>
-                <th>Nombre Sucursal</th>
-                <th>Direccion</th>
-                <th>Comuna</th>
-                <th>Estado Solicitud</th>
-                <th>Opciones</th>
+                <th class="text-center">Nro. Solicitud</th>
+                <th class="text-center">Nombre Tienda</th>
+                <th class="text-center">Nombre Sucursal</th>
+                <th class="text-center">Direccion</th>
+                <th class="text-center">Comuna</th>
+                <th class="text-center">Estado Solicitud</th>
+                <th class="text-center">Opciones</th>
             </tr>
 
         </thead>
@@ -49,13 +49,13 @@
 
             {% for r in rechazadas %}
             <tr>
-                <td>{{ r.id }}</td>
-                <td>{{ r.nombre }}</td>
-                <td>{{ r.nombre_sucursal }}</td>
-                <td>{{ r.direccion }}</td>
-                <td>{{ r.comuna.nombre }}</td>
-                <td>{{ r.estado_tienda.nombre }}</td>
-                <td>
+                <td class="text-center">{{ r.id }}</td>
+                <td class="text-center">{{ r.nombre }}</td>
+                <td class="text-center">{{ r.nombre_sucursal }}</td>
+                <td class="text-center">{{ r.direccion }}</td>
+                <td class="text-center">{{ r.comuna.nombre }}</td>
+                <td class="text-center">{{ r.estado_tienda.nombre }}</td>
+                <td class="text-center">
                     <a class="btn btn-primary btn-lg active" href="{% url 'aprobar_solicitud' r.id %}">Aprobar</a>
                     <a class="btn btn-primary btn-lg active" href="{% url 'eliminar_solicitud' r.id %}">Eliminar</a>
                 </td>

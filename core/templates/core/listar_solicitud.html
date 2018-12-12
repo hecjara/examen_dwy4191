@@ -35,13 +35,13 @@
         <thead>
 
             <tr>
-                <th>Nro. Solicitud</th>
-                <th>Nombre Tienda</th>
-                <th>Nombre Sucursal</th>
-                <th>Direccion</th>
-                <th>Comuna</th>
-                <th>Estado Solicitud</th>
-                <th>Opciones</th>
+                <th class="text-center">Nro. Solicitud</th>
+                <th class="text-center">Nombre Tienda</th>
+                <th class="text-center">Nombre Sucursal</th>
+                <th class="text-center">Direccion</th>
+                <th class="text-center">Comuna</th>
+                <th class="text-center">Estado Solicitud</th>
+                <th class="text-center">Opciones</th>
             </tr>
 
         </thead>
@@ -50,13 +50,13 @@
 
             {% for p in pendientes %}
             <tr>
-                <td>{{ p.id }}</td>
-                <td>{{ p.nombre }}</td>
-                <td>{{ p.nombre_sucursal }}</td>
-                <td>{{ p.direccion }}</td>
-                <td>{{ p.comuna.nombre }}</td>
-                <td>{{ p.estado_tienda.nombre }}</td>
-                <td>
+                <td class="text-center">{{ p.id }}</td>
+                <td class="text-center">{{ p.nombre }}</td>
+                <td class="text-center">{{ p.nombre_sucursal }}</td>
+                <td class="text-center">{{ p.direccion }}</td>
+                <td class="text-center">{{ p.comuna.nombre }}</td>
+                <td class="text-center">{{ p.estado_tienda.nombre }}</td>
+                <td class="text-center">
                     <a class="btn btn-primary btn-lg active" href="{% url 'aprobar_solicitud' p.id %}">Aprobar</a>
                     <a class="btn btn-primary btn-lg active" href="{% url 'rechazar_solicitud' p.id %}">Rechazar</a>
                     <a class="btn btn-primary btn-lg active" href="{% url 'eliminar_solicitud' p.id %}">Eliminar</a>

@@ -1,6 +1,6 @@
 
 from django.urls import path
-from .views import home, crear_lista, eliminar_producto, listar_listas, agregarlista, eliminar_lista, listar_productos, agregartienda, listar_solicitud, aprobartienda, rechazartienda, eliminarsolicitud, tiendasrechazadas, tiendasaprobadas, estado_comprado, estado_nocomprado, form_producto, modificar_producto
+from .views import home, crear_lista, eliminar_producto, listar_listas, agregarlista, eliminar_lista, listar_productos, agregartienda, listar_solicitud, aprobartienda, rechazartienda, eliminarsolicitud, tiendasrechazadas, tiendasaprobadas, estado_comprado, estado_nocomprado, form_producto, modificar_producto, lista_tiendas
 
 
 
@@ -23,6 +23,7 @@ urlpatterns = [
     path('crear_lista/', crear_lista, name="crear_lista"),
     path('eliminar_producto/<id>/', eliminar_producto, name="eliminar_producto"),
     path('modificar_producto/<id>/', modificar_producto, name="modificar_producto"),
+    path('lista_tiendas/', lista_tiendas, name="lista_tiendas"),
     
 
 ]

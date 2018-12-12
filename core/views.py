@@ -350,9 +350,14 @@ def listar_solicitud(request):
         'pendientes': pendientes
     })
 
+def lista_tiendas(request):
+    tiendas = Tienda.objects.filter(estado_tienda=2)
+    return render(request, 'core/lista_tiendas.html',{
+        'tiendas':tiendas
+    })
+
+
 # solicitud para agregar tienda
-
-
 @login_required
 def agregartienda(request):
     # estado por defecto de la tienda pendiente, el admin lo pasara a estado 2 o 3 (aceptado o rechazado respectivamente)

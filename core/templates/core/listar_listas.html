@@ -35,13 +35,13 @@
         <thead>
 
             <tr>
-                <th>Lista</th>
-                <th>Productos Agregados</th>
-                <th>Productos Comprados</th>
-                <th>Total Presupuestado</th>
-                <th>Total Real</th>
-                <th>Estado Lista</th>
-                <th>Opciones</th>
+                <th class="text-center">Lista</th>
+                <th class="text-center">Productos Agregados</th>
+                <th class="text-center">Productos Comprados</th>
+                <th class="text-center">Total Presupuestado</th>
+                <th class="text-center">Total Real</th>
+                <th class="text-center">Estado Lista</th>
+                <th class="text-center">Opciones</th>
             </tr>
 
         </thead>
@@ -50,25 +50,25 @@
 
             {% for l in listas %}
             <tr>
-                <td>{{ l.nombre_lista }}</td>
-                <td>{{ l.total_productos_agregados }}</td>
-                <td>{{ l.total_productos_comprados }}</td>
-                <td>{{ l.costo_total_presupuestado }}</td>
-                <td>{{ l.costo_total_real }}</td>
+                <td class="text-center">{{ l.nombre_lista }}</td>
+                <td class="text-center">{{ l.total_productos_agregados }}</td>
+                <td class="text-center">{{ l.total_productos_comprados }}</td>
+                <td class="text-center">{{ l.costo_total_presupuestado }}</td>
+                <td class="text-center">{{ l.costo_total_real }}</td>
 
 
                 {% if l.estadoLista.id == 1 %}
-                    <td>
+                    <td class="text-center">
                         <a href="" class="btn btn-danger">{{ l.estadoLista.nombre }}</a>
                     </td>
                 {% else %}  
-                    <td>
+                    <td class="text-center">
                         <a href="" class="btn btn-success">{{ l.estadoLista.nombre }}</a>
                     </td>
                 {% endif %}
 
 
-                <td>
+                <td class="text-center">
                     <a class="btn btn-primary mr-2" href="{% url 'form_producto' l.id %}">Agregar Producto</a>
                     <a class="btn btn-primary mr-2" href="{% url 'listar_productos' l.id %}" >Administrar Productos</a>
                     <a class="btn btn-primary" href="{% url 'eliminar_lista' l.id %}">Eliminar Lista</a>
