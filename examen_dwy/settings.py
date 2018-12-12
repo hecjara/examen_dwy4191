@@ -31,7 +31,8 @@ LOGIN_REDIRECT_URL = "/"
 
 LOGOUT_REDIRECT_ULR = "/accounts/login"
 
-
+SOCIAL_AUTH_FACEBOOK_KEY = '204646267084810'
+SOCIAL_AUTH_FACEBOOK_SECRET = '15e9a6098e07138f37262b0a607b6450'
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'api',
     'pwa',
     'fcm_django',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -59,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'examen_dwy.urls'
@@ -76,6 +79,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -156,3 +161,11 @@ FCM_DJANGO_SETTINGS = {
          # default: False
         "DELETE_INACTIVE_DEVICES": False,
 }
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
+SOCIAL_AUTH_RAISE_EXCEPTIONS = False
