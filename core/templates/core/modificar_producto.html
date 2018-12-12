@@ -11,54 +11,77 @@
     <h3 class="text-center">Formulario modificar producto</h3>
     <br>
 
+
+
+
     <form action="" method="POST" id="formularioproducto">
         {% csrf_token %}
 
-        <input type="hidden" name="txtid" id="txtid" value="{{ producto.id }}">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="">Nombre Producto:</label>
+                <input type="text" name="txtnombre" id="txtnombre" class="form-control" value="{{ producto.nombre }}">
+            </div>
+        </div>
 
-        <input type="hidden" name="txtestado" id="txtestado" value="{{ producto.estadoProducto.id }}">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="">Costo Real:</label>
+                <input type="number" name="txtreal" id="txtreal" class="form-control" value="{{ producto.costo_real }}">
 
-        <input type="hidden" name="txtlista" id="txtlista" value="{{ producto.lista.id }}">
+            </div>
 
-        <label for="">Nombre Producto:</label>
-        <input type="text" name="txtnombre" id="txtnombre" value="{{ producto.nombre }}">
+            <div class="form-group col-md-6">
+                <label for="">Costo Presupuestado:</label>
+                <input type="number" name="txtpresu" id="txtpresu" class="form-control" value="{{ producto.costo_presupuestado }}">
+            </div>
+        </div>
 
-        <label for="">Costo Real:</label>
-        <input type="number" name="txtreal" id="txtreal" value="{{ producto.costo_real }}">
+        <div class="form-row">
+            <div class="form-group col-md-6">
 
-        <label for="">Costo Presupuestado:</label>
-        <input type="number" name="txtpresu" id="txtpresu" value="{{ producto.costo_presupuestado }}">
+                    <label for="">Tienda:</label>
+                    <select name="cbotienda" id="cbotienda" class="form-control">
+                        <option value="">Seleccionar</option>
+                        
+                        {% for t in ti %}
+                        
+                        <option 
+                        
+                        {% if t.id == producto.tienda.id %}
+                        {{'selected'}}
+                        {% endif %}
+                        
+                        value="{{ t.id }}">{{ t.nombre }}</option>
+                        
+                        {% endfor %}
+                    </select>
+
+            </div>
+
+            <div class="form-group col-md-6">
+
+                <label for="">Notas Adicionales:</label>
+                <input type="text" name="txtnotas" id="txtnotas" class="form-control" value="{{ producto.notas_adicionales }}">
+
+            </div>
+
+        </div>
+
+
 
         <input type="hidden" name="txt_costo_total_real" id="txt_costo_total_real" value="{{ producto.lista.costo_total_real }}">
         <input type="hidden" name="txt_costo_total_presu" id="txt_costo_total_presu" value="{{ producto.lista.costo_total_presupuestado }}">
         <input type="hidden" name="txt_costo_real" id="txt_costo_real" value="{{ producto.costo_real }}">
         <input type="hidden" name="txt_costo_presu" id="txt_costo_presu" value="{{ producto.costo_presupuestado }}">
-
-        
-
-        <label for="">Tienda:</label>
-        <select name="cbotienda" id="cbotienda">
-            <option value="">Seleccionar</option>
-
-            {% for t in ti %}
-
-            <option 
-            
-            {% if t.id == producto.tienda.id %}
-            {{'selected'}}
-            {% endif %}
-
-            value="{{ t.id }}">{{ t.nombre }}</option>
-
-            {% endfor %}
-        </select>
-
-        <label for="">Notas Adicionales:</label>
-        <input type="text" name="txtnotas" id="txtnotas" value="{{ producto.notas_adicionales }}">
+        <input type="hidden" name="txtid" id="txtid" value="{{ producto.id }}">
+        <input type="hidden" name="txtestado" id="txtestado" value="{{ producto.estadoProducto.id }}">
+        <input type="hidden" name="txtlista" id="txtlista" value="{{ producto.lista.id }}">
 
         <input type="submit" value="Modificar Producto" class="btn btn-primary">
 
     </form>
+
 </div>
 
 <br>
