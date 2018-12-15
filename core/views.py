@@ -384,8 +384,8 @@ def agregartienda(request):
         try:
             tienda.save()
             variables['mensaje'] = 'La solicitud ha sido enviada correctamente, a la espera de ser aprobada.'
-        except:
-            variables['mensaje'] = 'Ha ocurrido un error al intentar enviar la solicitud'
+        except Exception as e:
+            variables['mensaje'] = 'Ha ocurrido un error al intentar enviar la solicitud '+str(e)
 
     return render(request, 'core/form_tienda.html', variables)
 

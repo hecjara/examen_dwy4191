@@ -11,28 +11,28 @@ var urlsToCache = [
     'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js'
 ];
 
-self.addEventListener('install', function (event) {
+self.addEventListener('install', function(event) {
     // Perform install steps
     event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then(function (cache) {
-                console.log('Opened cache');
-                return cache.addAll(urlsToCache);
-            })
-    );
-});
-
-self.addEventListener('fetch', function (event) {
-    event.respondWith(
-        caches.match(event.request).then(function (response) {
-            if (response) {
-                return response;
-            }
-
-            return fetch(event.request);
+      caches.open(CACHE_NAME)
+        .then(function(cache) {
+          console.log('Opened cache');
+          return cache.addAll(urlsToCache);
         })
     );
-});
+  });
+  
+  self.addEventListener('fetch', function(event){
+      event.respondWith(
+          caches.match(event.request).then(function(response) {
+              
+  
+              return fetch(event.request).catch(function(){
+                  return response;
+              });
+          })
+      );
+  });
 
 importScripts('https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/3.9.0/firebase-messaging.js');
