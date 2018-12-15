@@ -11,27 +11,27 @@
     <h3 class="text-center">Formulario de solicitud de tienda</h3>
     <br>
 
-    <form action="" method="POST" id="formulariotienda">
+    <form action="" method="POST" id="formulariotienda" onsubmit="return validarTienda();">
         {% csrf_token %}
 
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="txtnombre">Nombre Tienda:</label>
-                <input type="text" class="form-control" name="txtnombre" id="txtnombre" placeholder="Nombre de la tienda">
+                <input type="text" class="form-control" name="txtnombre" id="txtnombre" placeholder="Nombre de la tienda" required>
             </div>
             <div class="form-group col-md-6">
                 <label for="txtnom_sucur">Nombre Sucursal:</label>
-                <input type="text" class="form-control" name="txtnom_sucur" id="txtnom_sucur" placeholder="Nombre de la sucurasl">
+                <input type="text" class="form-control" name="txtnom_sucur" id="txtnom_sucur" placeholder="Nombre de la sucurasl" required>
             </div>
         </div>
         <div class="form-group">
             <label for="inputAddress">Dirección:</label>
-            <input type="text" class="form-control" name="txtdireccion" id="txtdireccion" placeholder="Ubicacion de la tienda">
+            <input type="text" class="form-control" name="txtdireccion" id="txtdireccion" placeholder="Ubicacion de la tienda" required>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="cboregion">Región:</label>
-                <select class="form-control" name="cboregion" id="cboregion">
+                <select class="form-control" name="cboregion" id="cboregion" required>
                     <option value="">Seleccionar</option>
                     {% for r in regiones %}
                     <option value="{{ r.id }}">{{ r.nombre }}</option>
@@ -40,7 +40,7 @@
             </div>
             <div class="form-group col-md-4">
                 <label for="cbocomuna">Comuna:</label>
-                <select name="cbocomuna" id="cbocomuna" class="form-control">
+                <select name="cbocomuna" id="cbocomuna" class="form-control" required>
                     <option value="">Seleccionar</option>
                     {% for c in comunas %}
                     <option value="{{ c.id }}">{{ c.nombre }}</option>

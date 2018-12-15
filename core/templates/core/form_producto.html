@@ -11,7 +11,7 @@
     <h3 class="text-center">Formulario ingreso de producto</h3>
     <br>
 
-    <form action="" method="POST" id="formularioproducto">
+    <form action="" method="POST" id="formularioproducto" onsubmit="return validarProducto();">
         {% csrf_token %}
 
         <input type="hidden" name="txtidlista" id="txtidlista" value="{{ li.id }}">
@@ -26,19 +26,19 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="">Costo Real:</label>
-                <input type="number" name="txtreal" id="txtreal" class="form-control">
+                <input type="number" name="txtreal" id="txtreal" class="form-control" required>
             </div>
 
             <div class="form-group col-md-6">
                 <label for="">Costo Presupuestado:</label>
-                <input type="number" name="txtpresu" id="txtpresu" class="form-control">
+                <input type="number" name="txtpresu" id="txtpresu" class="form-control" required>
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="">Tienda:</label>
-                <select name="cbotienda" id="cbotienda" class="form-control">
+                <select name="cbotienda" id="cbotienda" class="form-control" required> 
                     <option value="">Seleccionar</option>
                     {% for t in ti %}
                     <option value="{{ t.id }}">{{ t.nombre }}</option>
@@ -48,7 +48,7 @@
 
             <div class="form-group col-md-6">
                 <label for="">Notas Adicionales:</label>
-                <input type="text" name="txtnotas" id="txtnotas" class="form-control">
+                <input type="text" name="txtnotas" id="txtnotas" class="form-control" required>
             </div>
         </div>
         <hr>

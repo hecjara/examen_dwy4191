@@ -9,7 +9,7 @@
 
         <h4>Crear Lista</h4>
 
-        <form action="" method="POST">
+        <form action="" method="POST" onsubmit="return validarLista();">
             {% csrf_token %}
     
             <div class="form-row">

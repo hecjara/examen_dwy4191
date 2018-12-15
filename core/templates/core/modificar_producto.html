@@ -11,7 +11,7 @@
     <h3 class="text-center">Formulario modificar producto</h3>
     <br>
 
-    <form action="" method="POST" id="formularioproducto">
+    <form action="" method="POST" id="formularioproducto" onsubmit="return validarProducto();">
         {% csrf_token %}
 
         <div class="form-row">
