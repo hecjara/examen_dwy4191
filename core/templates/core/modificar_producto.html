@@ -17,49 +17,47 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="">Nombre Producto:</label>
-                <input type="text" name="txtnombre" id="txtnombre" class="form-control" value="{{ producto.nombre }}">
+                <input type="text" name="txtnombre" id="txtnombre" class="form-control" value="{{ producto.nombre }}" required>
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="">Costo Real:</label>
-                <input type="number" name="txtreal" id="txtreal" class="form-control" value="{{ producto.costo_real }}">
+                <input type="number" name="txtreal" id="txtreal" class="form-control" value="{{ producto.costo_real }}" required>
 
             </div>
 
             <div class="form-group col-md-6">
                 <label for="">Costo Presupuestado:</label>
-                <input type="number" name="txtpresu" id="txtpresu" class="form-control" value="{{ producto.costo_presupuestado }}">
+                <input type="number" name="txtpresu" id="txtpresu" class="form-control" value="{{ producto.costo_presupuestado }}" required>
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-6">
-
-                    <label for="">Tienda:</label>
-                    <select name="cbotienda" id="cbotienda" class="form-control">
-                        <option value="">Seleccionar</option>
-                        
-                        {% for t in ti %}
-                        
-                        <option 
-                        
-                        {% if t.id == producto.tienda.id %}
-                        {{'selected'}}
-                        {% endif %}
-                        
-                        value="{{ t.id }}">{{ t.nombre }}</option>
-                        
-                        {% endfor %}
-                    </select>
-
+                <label for="">Tienda:</label>
+                <select name="cbotienda" id="cbotienda" class="form-control" required>
+                    <option value="">Seleccionar</option>
+                    
+                    {% for t in ti %}
+                    
+                    <option 
+                    
+                    {% if t.id == producto.tienda.id %}
+                    {{'selected'}}
+                    {% endif %}
+                    
+                    value="{{ t.id }}">{{ t.nombre }}</option>
+                    
+                    {% endfor %}
+                </select>
             </div>
 
             <div class="form-group col-md-6">
 
                 <label for="">Notas Adicionales:</label>
-                <input type="text" name="txtnotas" id="txtnotas" class="form-control" value="{{ producto.notas_adicionales }}">
+                <input type="text" name="txtnotas" id="txtnotas" class="form-control" value="{{ producto.notas_adicionales }}" required>
 
             </div>
 

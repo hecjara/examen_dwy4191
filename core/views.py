@@ -86,6 +86,7 @@ def crear_lista(request):
             messages.success(request, 'Lista agregada correctamente')
         except:
             messages.error(request, 'No se ha podido agregar la lista')
+        return redirect('listado_listas')
     return render(request, 'core/crear_lista.html')
 
 # metodo para eliminar listas
@@ -167,6 +168,7 @@ def form_producto(request, id):
             variables['mensaje'] = 'El producto ha sido agregado a la lista'
         except:
             variables['mensaje'] = 'Error al intentar agregar el producto a la lista'
+        
 
     return render(request, 'core/form_producto.html', variables)
 
