@@ -8,13 +8,13 @@ class ListaAdmin(admin.ModelAdmin):
     list_filter = ('estadoLista',)
 
 class ComunaAdmin(admin.ModelAdmin):
-    list_display = ('region', 'nombre')
+    list_display = ('id', 'nombre', 'region')
     search_fields = ['nombre']
     list_filter = ('region',)
 
 class RegionAdmin(admin.ModelAdmin):
-    list_display = ('nro_region', 'nombre')
-    search_fields = ['nro_region', 'nombre']
+    list_display = ('id', 'nombre')
+    search_fields = ['nombre']
 
 class ProductoAdmin(admin.ModelAdmin):
     list_display = ('id', 'lista','nombre', 'costo_presupuestado', 'costo_real', 'tienda', 'notas_adicionales')

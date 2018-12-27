@@ -35,8 +35,7 @@ class Lista(models.Model):
 
 
 class Region(models.Model):
-    nro_region = models.IntegerField(unique=True, verbose_name="Nro. Región")
-    nombre = models.CharField(max_length=60)
+    nombre = models.CharField(max_length=60, unique=True)
     
     def __str__(self):
         return self.nombre
@@ -46,7 +45,7 @@ class Region(models.Model):
         verbose_name_plural = "Regiones"
 
 class Comuna(models.Model):
-    nombre = models.CharField(max_length=60)
+    nombre = models.CharField(max_length=60, unique=True)
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -70,3 +69,5 @@ class Producto(models.Model):
     estadoProducto = models.ForeignKey(EstadoProducto, on_delete=models.CASCADE, verbose_name="Estado Producto")
     lista = models.ForeignKey(Lista, on_delete=models.CASCADE)
     tienda = models.ForeignKey(Tienda, on_delete=models.CASCADE)
+
+    

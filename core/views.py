@@ -4,8 +4,8 @@ from django.contrib import messages
 from fcm_django.models import FCMDevice
 from django.contrib.auth.decorators import login_required
 
-# Create your views here.
 
+# Create your views here.
 
 def home(request):
     return render(request, 'core/home.html')
@@ -443,3 +443,8 @@ def eliminarsolicitud(request, id):
     except:
         messages.error(request, "Error al intentar eliminar la solicitud")
     return redirect('listar_solicitud')
+
+
+
+
+ 
